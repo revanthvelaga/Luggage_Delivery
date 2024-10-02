@@ -4,8 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -19,7 +24,7 @@ import java.util.Set;
         @UniqueConstraint(columnNames = {"email"}),
         @UniqueConstraint(columnNames = {"username"}),
 })
-public class User {
+public class User implements UserDetails {
 
     // Primary Key
     @Id
@@ -54,8 +59,7 @@ public class User {
     private String address;
 
     // Role (e.g., CUSTOMER, ADMIN)
-    @Column(nullable = false)
-    private String role;
+
 
     // Status (ACTIVE, INACTIVE, etc.)
     @Column(nullable = false)
@@ -71,7 +75,35 @@ public class User {
     private LocalDateTime updatedAt;
 
 
+    @Column(name = "roles")
+    private String roles;
+
+    @Column(name = "locked")
+    private boolean locked;
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.roles));
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }

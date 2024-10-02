@@ -83,10 +83,22 @@
 			<version>0.11.5</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version> <!-- Check for the latest version -->
+			<scope>provided</scope>  <!-- Provided by the runtime (e.g., Tomcat or Jetty) -->
+		</dependency>
+		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId> <!-- If using Jackson for JSON serialization/deserialization -->
 			<version>0.11.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 
 
 		<!-- Testing dependencies -->
